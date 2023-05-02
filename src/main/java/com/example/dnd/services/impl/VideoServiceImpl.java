@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -51,6 +52,10 @@ public class VideoServiceImpl implements VideoService {
         videoRepository.deleteByName(name);
     }
 
+    @Override
+    public List<String> getAllVideosNames() {
+        return videoRepository.getAllEntryNames();
+    }
 }
 
 //    MIT License

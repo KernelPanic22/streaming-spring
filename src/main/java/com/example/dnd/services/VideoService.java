@@ -6,6 +6,7 @@ import com.example.dnd.services.exceptions.VideoNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface VideoService {
     Video getVideo(String name) throws VideoNotFoundException;
@@ -16,6 +17,7 @@ public interface VideoService {
 
     void deleteVideoByName(String name) throws VideoNotFoundException;
 
+    List<String> getAllVideosNames();
 }
 
 //    MIT License

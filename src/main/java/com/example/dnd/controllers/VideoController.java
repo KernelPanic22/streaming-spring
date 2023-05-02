@@ -6,26 +6,26 @@ import com.example.dnd.services.exceptions.VideoAlreadyExistsException;
 import com.example.dnd.services.exceptions.VideoNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.core.io.ByteArrayResource;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
-@RequestMapping("/videos")
+@RequestMapping("/video")
 @AllArgsConstructor
 public class VideoController {
 
     @Autowired
     private VideoService videoService;
-
 
     @PostMapping("/save")
     public ResponseEntity<String> saveVideo(@RequestParam("file") MultipartFile file, @RequestParam("name") String name) throws IOException, VideoAlreadyExistsException {
@@ -44,10 +44,14 @@ public class VideoController {
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(new ByteArrayResource(videoService.getVideo(name).getData()));
-        }catch (VideoNotFoundException e) {
+        } catch (VideoNotFoundException e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
 
+    @GetMapping("all")
+    public ResponseEntity<List<String>> getAllVideosNames() {
+        return ok().body(videoService.getAllVideosNames());
     }
 }
 
